@@ -8,6 +8,7 @@ export default function SignUp() {
         <title>Pair Up! - Sign Up</title>
       </Head>
       <div>Sign Up Page</div>
+      <img src="/ballroom.gif" alt="animated dancing couple" />
     </Layout>
   );
 }

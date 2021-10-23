@@ -12,11 +12,8 @@ export default function Home() {
         <title>Pair Up! - Home</title>
       </Head>
       <div>Home</div>
-      images with normal image tag:
-      <img src="/ballroom.gif" alt="animated dancing couple" />
-      <img src="/oldies.gif" alt="animated dancing couple" />
-      image with image component:
       <Image src={ottBallroomPic} alt="animated dancing couple" />
+      <img src="/oldies.gif" alt="animated dancing couple" />
     </Layout>
   );
 }

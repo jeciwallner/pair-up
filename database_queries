@@ -1,0 +1,52 @@
+CREATE TABLE styles (
+id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+name varchar(40) NOT NULL
+);
+
+CREATE TABLE schools (
+  id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name varchar(40) NOT NULL
+);
+
+CREATE TABLE dancers (
+  id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name varchar(40) NOT NULL,
+  role varchar(40) NOT NULL,
+  match_id integer references dancers (id)
+);
+
+CREATE TABLE requests (
+  PRIMARY KEY (requester_id, receiver_id),
+  requester_id integer references dancers (id),
+  receiver_id integer references dancers (id),
+  point_in_time timestamp,
+  status_id integer references statuses (id)
+);
+
+CREATE TABLE statuses (
+  id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name varchar(40) NOT NULL
+);
+
+CREATE TABLE roles (
+  id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name varchar(40) NOT NULL
+);
+
+CREATE TABLE favourite_styles (
+  PRIMARY KEY (dancers_id, styles_id),
+  dancers_id integer references dancers (id),
+  styles_id integer references styles (id)
+);
+
+CREATE TABLE favourite_schools (
+  PRIMARY KEY (dancers_id, schools_id),
+  dancers_id integer references dancers (id),
+  schools_id integer references schools (id)
+);
+
+CREATE TABLE styles_schools (
+  PRIMARY KEY (styles_id, schools_id),
+  schools_id integer references schools (id),
+  styles_id integer references styles (id)
+);
