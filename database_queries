@@ -15,17 +15,17 @@ CREATE TABLE dancers (
   match_id integer references dancers (id)
 );
 
+CREATE TABLE statuses (
+  id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name varchar(40) NOT NULL
+);
+
 CREATE TABLE requests (
   PRIMARY KEY (requester_id, receiver_id),
   requester_id integer references dancers (id),
   receiver_id integer references dancers (id),
   point_in_time timestamp,
   status_id integer references statuses (id)
-);
-
-CREATE TABLE statuses (
-  id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  name varchar(40) NOT NULL
 );
 
 CREATE TABLE roles (
