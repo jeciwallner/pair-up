@@ -1,67 +1,46 @@
+const schools = [
+  { id: 1, name: 'SwingAUT' },
+  { id: 2, name: 'Swing.Wien' },
+  { id: 3, name: 'Step & Swing' },
+  { id: 4, name: 'IG Hop' },
+  { id: 5, name: 'MyDanceVienna' },
+  { id: 6, name: 'Apollo 21 Tanzstudio' },
+  { id: 7, name: 'Tanzschule Chris' },
+  { id: 8, name: 'Tanzschule Dance for Fun' },
+  { id: 9, name: 'Tanzschule Dorner' },
+  { id: 10, name: 'Tanzschule Eddy Franzen' },
+  { id: 11, name: 'Tanzschule Elmayer' },
+  { id: 12, name: 'Tanzschule Fred Astaire' },
+  { id: 13, name: 'Tanzschule Immervoll' },
+  { id: 14, name: 'Tanzschule Kopetzky' },
+  { id: 15, name: 'Tanzschule Kraml 1010' },
+  { id: 16, name: 'Tanzschule Kraml 1030' },
+  { id: 17, name: 'Tanzschule Kraml 1070' },
+  { id: 18, name: 'Tanzschule Kreuzenstein' },
+  { id: 19, name: 'Tanzschule Lamp' },
+  { id: 20, name: 'Tanzschule Mikl' },
+  { id: 21, name: 'Tanzschule Mühlsiegl' },
+  { id: 22, name: 'Tanzschule Prof. Wagner' },
+  { id: 23, name: 'Tanzschule Rueff' },
+  { id: 24, name: 'Tanzschule Schwebach' },
+  { id: 25, name: 'Tanzschule Stanek' },
+  { id: 26, name: 'Tanzschule Step & Swing - Die Tanzprofis' },
+];
+
+// Alternative shortcut from Postgres.js (multiple inserts into one query) - needs to match exactly what's in the db!
 exports.up = async function up(sql) {
   await sql`
-	INSERT INTO schools
-	(name)
-VALUES
-	( 'SwingAUT'),
-	( 'Swing.Wien'),
-	( 'Step & Swing'),
-	( 'IG Hop'),
-	( 'MyDanceVienna'),
-	( 'Apollo 21 Tanzstudio'),
-	( 'Tanzschule Chris'),
-	( 'Tanzschule Dance for Fun'),
-	( 'Tanzschule Dorner'),
-	( 'Tanzschule Eddy Franzen'),
-	( 'Tanzschule Elmayer'),
-	( 'Tanzschule Fred Astaire'),
-	( 'Tanzschule Immervoll'),
-	( 'Tanzschule Kopetzky'),
-	( 'Tanzschule Kraml 1010'),
-	( 'Tanzschule Kraml 1030'),
-	( 'Tanzschule Kraml 1070'),
-	( 'Tanzschule Kreuzenstein'),
-	( 'Tanzschule Lamp'),
-	( 'Tanzschule Mikl'),
-	( 'Tanzschule Mühlsiegl'),
-	( 'Tanzschule Prof. Wagner'),
-	( 'Tanzschule Rueff'),
-	( 'Tanzschule Schwebach'),
-	( 'Tanzschule Stanek'),
-	( 'Tanzschule Step & Swing - Die Tanzprofis');
+	INSERT INTO schools ${sql(schools, 'id', 'name')}
 	`;
 };
 
 exports.down = async function down(sql) {
-  await sql`
+  for (const school of schools) {
+    await sql`
 	DELETE FROM
-		schools
+	 schools
 	WHERE
-		( name = 'SwingAUT') OR
-	  ( name = 'Swing.Wien') OR
-		( name = 'Step & Swing') OR
-		( name = 'IG Hop') OR
-		( name = 'MyDanceVienna') OR
-		( name = 'Apollo 21 Tanzstudio') OR
-		( name = 'Tanzschule Chris') OR
-		( name = 'Tanzschule Dance for Fun') OR
-		( name = 'Tanzschule Dorner') OR
-		( name = 'Tanzschule Eddy Franzen') OR
-		( name = 'Tanzschule Elmayer') OR
-		( name = 'Tanzschule Fred Astaire') OR
-		( name = 'Tanzschule Immervoll') OR
-		( name = 'Tanzschule Kopetzky') OR
-		( name = 'Tanzschule Kraml 1010') OR
-		( name = 'Tanzschule Kraml 1030') OR
-		( name = 'Tanzschule Kraml 1070') OR
-		( name = 'Tanzschule Kreuzenstein') OR
-		( name = 'Tanzschule Lamp') OR
-		( name = 'Tanzschule Mikl') OR
-		( name = 'Tanzschule Mühlsiegl') OR
-		( name = 'Tanzschule Prof. Wagner') OR
-		( name = 'Tanzschule Rueff') OR
-		( name = 'Tanzschule Schwebach') OR
-		( name = 'Tanzschule Stanek') OR
-		( name = 'Tanzschule Step & Swing - Die Tanzprofis');
-	`;
+	 id = ${school.id} AND name = ${school.name};
+		`;
+  }
 };

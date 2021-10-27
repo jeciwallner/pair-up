@@ -2,7 +2,7 @@ exports.up = async function up(sql) {
   console.log('Create schools table.');
   await sql`
 	CREATE TABLE schools (
-		id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+		id integer PRIMARY KEY NOT NULL,
 		name varchar(40) NOT NULL
 		);
 		`;

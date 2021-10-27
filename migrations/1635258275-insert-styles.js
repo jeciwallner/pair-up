@@ -1,23 +1,23 @@
 const styles = [
-  { name: 'Swing' },
-  { name: 'Charleston' },
-  { name: 'Lindy Hop' },
-  { name: 'Bachata' },
-  { name: 'Salsa' },
-  { name: 'Kizomba' },
-  { name: 'Viennese Waltz' },
-  { name: 'Slow Waltz' },
-  { name: 'Foxtrott' },
-  { name: 'Quickstepp' },
-  { name: 'Tango' },
-  { name: 'Cha Cha Cha' },
-  { name: 'Square Rumba' },
-  { name: 'Cuban Rumba' },
-  { name: 'Samba' },
-  { name: 'Boogie' },
-  { name: 'Jive' },
-  { name: 'Paso Doble' },
-  { name: 'Ball Season Crash Course' },
+  { id: 1, name: 'Swing' },
+  { id: 2, name: 'Charleston' },
+  { id: 3, name: 'Lindy Hop' },
+  { id: 4, name: 'Bachata' },
+  { id: 5, name: 'Salsa' },
+  { id: 6, name: 'Kizomba' },
+  { id: 7, name: 'Viennese Waltz' },
+  { id: 8, name: 'Slow Waltz' },
+  { id: 9, name: 'Foxtrott' },
+  { id: 10, name: 'Quickstepp' },
+  { id: 11, name: 'Tango' },
+  { id: 12, name: 'Cha Cha Cha' },
+  { id: 13, name: 'Square Rumba' },
+  { id: 14, name: 'Cuban Rumba' },
+  { id: 15, name: 'Samba' },
+  { id: 16, name: 'Boogie' },
+  { id: 17, name: 'Jive' },
+  { id: 18, name: 'Paso Doble' },
+  { id: 19, name: 'Ball Season Crash Course' },
 ];
 
 exports.up = async function up(sql) {
@@ -27,18 +27,12 @@ exports.up = async function up(sql) {
   for (const style of styles) {
     await sql`
   	INSERT INTO styles
-  		(name)
+  		(id, name)
   	VALUES
-  		(${style.name});
+  		(${style.id}, ${style.name});
   	`;
   }
 };
-
-// Alternative shortcut from Postgres.js (multiple inserts into one query) - needs to match exactly what's in the db!
-//   await sql`
-// INSERT INTO styles ${sql(styles, 'name')}
-// `;
-// };
 
 exports.down = async function down(sql) {
   console.log('I have deleted the styles table.');
