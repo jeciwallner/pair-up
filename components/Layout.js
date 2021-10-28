@@ -1,4 +1,3 @@
-import { css, Global } from '@emotion/react';
 import Footer from './Footer';
 import Header from './Header';
 

@@ -12,3 +12,8 @@ export default function Login() {
     </Layout>
   );
 }
+
+// Create the record in the sessions table with a new token:
+// 1. create a token
+// 2. do a DB query to add the session record
+// set the response to create the cookie in the browser
