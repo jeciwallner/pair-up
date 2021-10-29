@@ -27,8 +27,8 @@ function connectOneTimeToDatabase() {
 // Connect to PostgreSQL
 const sql = connectOneTimeToDatabase();
 
-// database query:
-export default async function getStyles() {
+// database query 1:
+export async function getStyles() {
   const styles = await sql`
 SELECT * FROM styles;
  `;
@@ -53,3 +53,9 @@ SELECT * FROM styles;
 //    name,
 //    email;
 // }
+
+// Connecting Database to Frontend
+// * identify some page that will get some information from the database
+// * make sure that you can connect to the database from util/database.js (eg. with an .env file and dotenv-cli) -> DONE
+// * write a database query for this information in util/database.js file (check the example repo for examples of SQL queries that could be adapted for your needs)
+// * import and run this query from the getServerSideProps on that page you identified (maybe take a look at the first / second databases lecture for how to do this)
