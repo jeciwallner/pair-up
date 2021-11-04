@@ -37,6 +37,8 @@ SELECT * FROM styles;
   });
 }
 
+// insert user function comes here - this can't be called from the frontend: needs an API Route that gives me an addressw that I can fetch; Post method
+
 // this will read in the environment variables in the .env file, making it possible to connect with postgres!
 // dotenvSafe.config();
 

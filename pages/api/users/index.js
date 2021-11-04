@@ -16,7 +16,7 @@ export async function handler(req, res) {
   // console.log('method', req.method);
 
   if (req.method === 'GET') {
-    const users = await getStyles();
+    const users = await getUsers();
     return res.status(200).json(styles);
   } else if (req.method === 'POST') {
     const body = req.body;

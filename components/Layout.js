@@ -4,12 +4,10 @@ import Header from './Header';
 
 export default function Layout(props) {
   return (
-    <div>
+    <div className="wrapper">
       <Header />
-      <div className="wrapper">
-        {props.children}
-        <Footer />
-      </div>
+      <div>{props.children}</div>
+      <Footer className="footerStyles" />
     </div>
   );
 }
