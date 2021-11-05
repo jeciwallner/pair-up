@@ -2,10 +2,10 @@ exports.up = async function up(sql) {
   await sql`
 	CREATE TABLE users (
 		id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-		name varchar(40) NOT NULL,
+		username varchar(40) UNIQUE NOT NULL,
 		email varchar (40) NOT NULL,
 		phone_number integer,
-		hash_password varchar(60),
+		password_hash varchar(60) NOT NULL,
 		dancer_id integer references dancers (id)
 	);
 `;

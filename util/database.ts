@@ -4,7 +4,34 @@ import camelcaseKeys from 'camelcase-keys';
 import dotenvSafe from 'dotenv-safe';
 import postgres from 'postgres';
 
+export type Course = {
+  id: number;
+  title: string;
+  description: string;
+};
+
+export type User = {
+  id: number;
+  username: string;
+  email: string;
+};
+
+export type UserWithPasswordHash = User & {
+  passwordHash: string;
+};
+
+export type Session = {
+  id: number;
+  token: string;
+  userId: number;
+  expiryTimestamp: Date;
+};
+
+// Read in the environment variables
+// in the .env file, making it possible
+// to connect to PostgreSQL
 dotenvSafe.config();
+
 // Connect only once to the database
 // https://github.com/vercel/next.js/issues/7811#issuecomment-715259370
 function connectOneTimeToDatabase() {
@@ -37,19 +64,40 @@ SELECT * FROM styles;
   });
 }
 
-// insert user function comes here - this can't be called from the frontend: needs an API Route that gives me an addressw that I can fetch; Post method
+// The insert user function can't be called from the frontend: it needs an API Route that gives me an address that I can fetch using the Post method
+export async function insertUser({
+  username,
+  email,
+  passwordHash,
+}: {
+  username: string;
+  email: string;
+  passwordHash: string;
+}) {
+  const [user] = await sql<[User | undefined]>`
+    INSERT INTO users
+      (username, email, password_hash)
+    VALUES
+      (${username}, ${email}, ${passwordHash})
+    RETURNING
+      id,
+      username,
+      email;
+  `;
+  return user && camelcaseKeys(user);
+}
 
 // this will read in the environment variables in the .env file, making it possible to connect with postgres!
 // dotenvSafe.config();
 
 // const sql = postgres();
 
-// export async function insertUser({ name, hashPassword,}
+// export async function insertUser({ name, passwordHash,}
 //   {
 //   const [user] = await sql<[User]>`
-//    INSERT INTO users(name, hash_password)
+//    INSERT INTO users(name, password_hash)
 //    VALUES
-//    (${name}, ${hashPassword})
+//    (${name}, ${passwordHash})
 //    RETURNING
 //    id,
 //    name,
