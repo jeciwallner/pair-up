@@ -1,8 +1,8 @@
 import crypto from 'node:crypto';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { hashPassword } from '../../util/auth';
-import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
-import { verifyCsrfToken } from '../../util/csrf';
+// import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
+// import { verifyCsrfToken } from '../../util/csrf';
 import {
   createSession,
   deleteExpiredSessions,
@@ -12,28 +12,35 @@ import {
 } from '../../util/database';
 import { Errors } from '../../util/types';
 
-export type RegisterRequest = {
+export type SignUpRequest = {
   username: string;
   email: string;
   password: string;
 };
 
-export type RegisterResponse = { errors: Errors } | { user: User };
+export type SignUpResponse = { errors: Errors } | { user: User };
 
 export default async function registerHandler(
   req: NextApiRequest,
-  res: NextApiResponse<RegisterResponse>,
+  res: NextApiResponse<SignUpResponse>,
 ) {
   if (!req.body.username || !req.body.password) {
     res.status(400).send({
-      errors: [{ message: 'Request does not contain username and password' }],
+      errors: [{ message: ' Require Username and Password.' }],
+    });
+    return;
+  }
+
+  if (req.body.password.length < 8) {
+    res.status(400).send({
+      errors: [{ message: ' Password is too short.' }],
     });
     return;
   }
 
   if (!req.body.csrfToken || !verifyCsrfToken(req.body.csrfToken)) {
     res.status(400).send({
-      errors: [{ message: 'Request does not contain valid CSRF token' }],
+      errors: [{ message: 'Request does not contain valid token' }],
     });
     return;
   }
@@ -63,7 +70,7 @@ export default async function registerHandler(
     deleteExpiredSessions();
 
     if (!user) {
-      res.status(500).send({ errors: [{ message: 'User not create' }] });
+      res.status(500).send({ errors: [{ message: 'User doesn`t exist' }] });
       return;
     }
 

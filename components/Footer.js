@@ -5,7 +5,7 @@ const footerStyles = css`
   grid-row-end: 3;
   display: flex;
   gap: 10px;
-  background-color: turquoise;
+  background-color: #499be7;
   color: black;
 `;
 

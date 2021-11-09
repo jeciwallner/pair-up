@@ -3,31 +3,21 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Layout from '../components/Layout';
-import ottBallroomPic from '../public/images/ottBallroom.gif';
+import classical from '../public/images/classical.jpeg';
+import cleveland from '../public/images/cleveland.jpeg';
 
-export default function Home(props) {
+export default function Home() {
   return (
     <Layout>
       <Head>
         <title>Pair Up! - Home</title>
       </Head>
-      <div>Home</div>
-      <Image src={ottBallroomPic} alt="animated dancing couple" />
-      <img src="/oldies.gif" alt="animated dancing couple" />
-      {JSON.stringify(props.stylesList)}
+      <Image src={cleveland} alt="dancing couple in downtown cleveland" />
+      <div>
+        Welcome to PairUp! We are delighted to see you here and so on and so
+        forth...
+      </div>
+      <Image src={classical} alt="classical dancing couple" />
     </Layout>
   );
-}
-
-export async function getServerSideProps() {
-  const { getStyles } = await import('../util/database');
-
-  const stylesList = await getStyles();
-
-  console.log(stylesList);
-  return {
-    props: {
-      stylesList,
-    },
-  };
 }
