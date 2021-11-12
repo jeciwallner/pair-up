@@ -1,11 +1,11 @@
 import crypto from 'node:crypto';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verifyPassword } from '../../util/auth';
-import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
+import { createSerializedSignUpSessionsTokenCookie } from '../../util/cookie';
 import {
   createSession,
   deleteExpiredSessions,
-  getUserWithPasswordHashByUsername,
+  getUserWithPasswordHash,
   User,
 } from '../../util/database';
 import { Errors } from '../../util/types';
@@ -18,22 +18,18 @@ export default async function loginHandler(
 ) {
   if (!req.body.username || !req.body.password) {
     res.status(400).send({
-      errors: [{ message: 'Request does not contain username and password' }],
+      errors: [{ message: 'Login requires Username and Password.' }],
     });
     return;
   }
 
   try {
     const username = req.body.username;
+    const userWithPasswordHash = await getUserWithPasswordHash(username);
 
-    const userWithPasswordHash = await getUserWithPasswordHashByUsername(
-      username,
-    );
-
-    // Username doesn't match anything in the database
     if (!userWithPasswordHash) {
       res.status(401).send({
-        errors: [{ message: 'Username or password does not match' }],
+        errors: [{ message: 'Username or Password does not match.' }],
       });
       return;
     }
@@ -43,35 +39,30 @@ export default async function loginHandler(
       userWithPasswordHash.passwordHash,
     );
 
-    // Password doesn't match hash in the database
     if (!isPasswordVerified) {
       res.status(401).send({
-        errors: [{ message: 'Username or password does not match' }],
+        errors: [{ message: 'Username or Password does not match.' }],
       });
       return;
     }
 
-    // clean old sessions
     deleteExpiredSessions();
 
-    // Create the record in the sessions table with a new token
-
-    // 1. create the token
     const token = crypto.randomBytes(64).toString('base64');
+    // token will be created on login!
+    console.log(token);
 
-    // 2. do a DB query to add the session record
     const newSession = await createSession(token, userWithPasswordHash.id);
+    console.log('newSession', newSession);
 
-    // set the response to create the cookie in the browser
+    const cookie = createSerializedSignUpSessionsTokenCookie(
+      newSession.sessionToken,
+    );
+    console.log('Is this working?', cookie);
 
-    const cookie = createSerializedRegisterSessionTokenCookie(newSession.token);
-
-    // Important! Removing the password
-    // hash from the response sent back
-    // to the user
     const { passwordHash, ...user } = userWithPasswordHash;
 
-    res.status(200).setHeader('Set-Cookie', cookie).send({ user: user });
+    res.status(200).setHeader('set-Cookie', cookie).send({ user: user });
   } catch (err) {
     res.status(500).send({ errors: [{ message: (err as Error).message }] });
   }

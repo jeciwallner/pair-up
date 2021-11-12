@@ -1,12 +1,12 @@
 import crypto from 'node:crypto';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { hashPassword } from '../../util/auth';
-// import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
-// import { verifyCsrfToken } from '../../util/csrf';
+import { createSerializedSignUpSessionsTokenCookie } from '../../util/cookie';
+import { verifyCsrfToken } from '../../util/csrf';
 import {
   createSession,
   deleteExpiredSessions,
-  getUserWithPasswordHashByUsername,
+  getUserWithPasswordHash,
   insertUser,
   User,
 } from '../../util/database';
@@ -26,14 +26,7 @@ export default async function registerHandler(
 ) {
   if (!req.body.username || !req.body.password) {
     res.status(400).send({
-      errors: [{ message: ' Require Username and Password.' }],
-    });
-    return;
-  }
-
-  if (req.body.password.length < 8) {
-    res.status(400).send({
-      errors: [{ message: ' Password is too short.' }],
+      errors: [{ message: 'Username and Password required.' }],
     });
     return;
   }
@@ -45,15 +38,22 @@ export default async function registerHandler(
     return;
   }
 
+  if (req.body.password.length < 8) {
+    res.status(400).send({
+      errors: [{ message: ' Password is too short.' }],
+    });
+    return;
+  }
+
   try {
     const username = req.body.username;
     const email = req.body.email;
 
-    const existingUser = await getUserWithPasswordHashByUsername(username);
+    const existingUser = await getUserWithPasswordHash(username);
 
     if (existingUser) {
       res.status(400).send({
-        errors: [{ message: 'Username already exists' }],
+        errors: [{ message: 'Username already exists.' }],
       });
       return;
     }
@@ -66,25 +66,20 @@ export default async function registerHandler(
       passwordHash: passwordHash,
     });
 
-    // clean old sessions
     deleteExpiredSessions();
 
     if (!user) {
-      res.status(500).send({ errors: [{ message: 'User doesn`t exist' }] });
+      res.status(500).send({ errors: [{ message: 'User doesn`t exists' }] });
       return;
     }
 
-    // Create the record in the sessions table with a new token
-
-    // 1. create the token
     const token = crypto.randomBytes(64).toString('base64');
 
-    // 2. do a DB query to add the session record
     const newSession = await createSession(token, user.id);
 
-    // set the response to create the cookie in the browser
-
-    const cookie = createSerializedRegisterSessionTokenCookie(newSession.token);
+    const cookie = createSerializedSignUpSessionsTokenCookie(
+      newSession.sessionToken,
+    );
 
     res.status(200).setHeader('set-Cookie', cookie).send({ user: user });
   } catch (err) {

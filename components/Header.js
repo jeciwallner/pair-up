@@ -23,7 +23,7 @@ export default function Header() {
         <Link href="/" alt="Landing Page">
           <a>PairUp!</a>
         </Link>
-        <Link href="/sign-up" alt="Link to Sign-Up Page">
+        <Link href="/sign_up" alt="Link to Sign-Up Page">
           <a>Sign Up</a>
         </Link>
         <Link href="/login" alt="Link to Login Page">
@@ -31,6 +31,9 @@ export default function Header() {
         </Link>
         <Link href="/profile" alt="Link to Profile Page">
           <a>My Profile</a>
+        </Link>
+        <Link href="/logout" alt="Link to Logout Page">
+          <a>Logout</a>
         </Link>
       </nav>
       <Image src={headerPic} alt="dancing couple in nature" />

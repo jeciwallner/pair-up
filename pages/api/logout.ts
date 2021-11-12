@@ -1,6 +1,8 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { NextApiRequest, NextApiResponse } from 'next';
-import { deleteSessionByToken } from '../../util/database';
+import {
+  deleteExpiredSessions,
+  deleteSessionByToken,
+} from '../../util/database';
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,6 +15,8 @@ export default async function handler(
       return res.status(200).send({});
     }
   }
+
+  await deleteExpiredSessions();
 
   return res.status(405).send({});
 }

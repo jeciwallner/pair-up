@@ -1,6 +1,5 @@
-// this is UI code
+// actual UI code
 // fetch to the API Route
-
 import { css } from '@emotion/react';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/dist/client/router';
@@ -8,7 +7,7 @@ import Head from 'next/head';
 import { useState } from 'react';
 import Layout from '../components/Layout';
 import { Errors } from '../util/types';
-import { SignUpResponse } from './api/sign_up';
+import { LoginResponse } from './api/login';
 
 const formStyles = css`
   label {
@@ -20,11 +19,8 @@ const errorStyles = css`
   color: #ff0077;
 `;
 
-type Props = { refreshUsername: () => void; csrfToken: string };
-
-export default function SignUpPage(props: Props) {
+export default function LoginPage() {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Errors>([]);
   const router = useRouter();
@@ -32,33 +28,30 @@ export default function SignUpPage(props: Props) {
   return (
     <Layout>
       <Head>
-        <title>Pair Up! - Sign Up</title>
+        <title>Pair Up! - Login</title>
       </Head>
-      <h1>Sign Up</h1>
+      <h1>Login</h1>
       <form
         css={formStyles}
         onSubmit={async (event) => {
           event.preventDefault();
 
-          const signUpResponse = await fetch('/api/sign_up', {
+          const loginResponse = await fetch('/api/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-
             // this body turns into req.body inside the API Route:
             body: JSON.stringify({
               username: username,
-              email: email,
               password: password,
-              csrfToken: props.csrfToken,
             }),
           });
 
-          const signUpJson = (await signUpResponse.json()) as SignUpResponse;
+          const loginJson = (await loginResponse.json()) as LoginResponse;
 
-          if ('errors' in signUpJson) {
-            setErrors(signUpJson.errors);
+          if ('errors' in loginJson) {
+            setErrors(loginJson.errors);
             return;
           }
 
@@ -67,7 +60,6 @@ export default function SignUpPage(props: Props) {
               ? router.query.returnTo
               : `/profile`;
           router.push(destination);
-          // props.refreshUsername();
         }}
       >
         <label>
@@ -78,14 +70,6 @@ export default function SignUpPage(props: Props) {
           />
         </label>
         <label>
-          Email-Address
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.currentTarget.value)}
-          />
-        </label>
-        <label>
           Password
           <input
             type="password"
@@ -93,22 +77,28 @@ export default function SignUpPage(props: Props) {
             onChange={(event) => setPassword(event.currentTarget.value)}
           />
         </label>
-        <button>Sign Me Up!</button>
+        <button>Login</button>
       </form>
-      <img src="/ballroom.gif" alt="animated dancing couple" />
       <div css={errorStyles}>
         {errors.map((error) => (
           <div key={`error-${error.message}`}>{error.message}</div>
         ))}
       </div>
+      <img src="/dancingCouple.gif" alt="animated dancing couple" />
     </Layout>
   );
 }
 
+// this is going to be my API route, the page is going to communicate with!
+// in the API Route I am getting the username and password
+// then the password needs to be converted to a hashed password
+
+/*  res.send is similar to return - I am sending a response back to the browser */
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { getValidSessionByToken } = await import('../util/database');
   const { createToken } = await import('../util/csrf');
 
+  // Redirect from HTTP to HTTPS on Heroku
   if (
     context.req.headers.host &&
     context.req.headers['x-forwarded-proto'] &&
@@ -116,7 +106,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   ) {
     return {
       redirect: {
-        destination: `https://${context.req.headers.host}/register`,
+        destination: `https://${context.req.headers.host}/login`,
         permanent: true,
       },
     };
@@ -143,3 +133,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     },
   };
 }
+
+// Create the record in the sessions table with a new token:
+// 1. create a token
+// 2. do a DB query to add the session record
+// set the response to create the cookie in the browser
