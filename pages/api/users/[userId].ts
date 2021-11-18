@@ -1,45 +1,29 @@
-// localhost:3000/api/users/:id
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import {
   GetServerSidePropsContext,
   NextApiRequest,
   NextApiResponse,
 } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import Layout from '../../../components/Layout';
+import { getParsedCookie, setParsedCookie } from '../../../util/cookie';
 import {
   deleteUserById,
   getUser,
-  updateUserById,
-} from '../../../util/database';
-// import { useRouter } from 'next/router';
-import Layout from '../../components/Layout';
-import {
-  addOrRemoveFromFollowingArray,
-  findUserAndIncrementClapCount,
-  getParsedCookie,
-  setParsedCookie,
-} from '../../util/cookies';
-import {
-  Course,
-  getUser,
   getValidSessionByToken,
+  updateUserById,
   User,
-} from '../../util/database';
-import { SignUpResponse } from './sign_up';
+} from '../../../util/database';
+import { SignUpResponse } from '../../api/sign_up';
+import Profile from '../../profile';
 
-export default async function handler(req, res) {
-  console.log('query', req.query);
-  // console.log('body', req.body);
-  // console.log('method', req.method);
-
+export async function handler(req: any, res: any) {
   if (req.method === 'GET') {
     const user = await getUser(Number(req.query.userId));
     res.status(200).json(user);
   } else if (req.method === 'DELETE') {
     console.log('query', req.query);
-    // the code for the POST request
     const deletedUser = await deleteUserById(Number(req.query.userId));
 
     return res.status(200).json(deletedUser);
@@ -48,8 +32,8 @@ export default async function handler(req, res) {
     const query = req.query;
 
     const updatedUser = await updateUserById(Number(query.userId), {
-      name: body.userName,
-      favoriteColor: body.userColor,
+      username: body.userName,
+      email: body.email,
     });
 
     return res.status(200).json(updatedUser);
@@ -58,7 +42,7 @@ export default async function handler(req, res) {
   return res.status(405);
 }
 
-export default async function handler(
+export async function handlerSignUpResponse(
   req: NextApiRequest,
   res: NextApiResponse<SignUpResponse>,
 ) {
@@ -87,8 +71,6 @@ export default async function handler(
   return res.status(405);
 }
 
-type FollowingItem = { id: number; clapCount: number };
-
 type Props = {
   user: User;
   courses: Course[];
@@ -103,11 +85,6 @@ export default function SingleUser(props: Props) {
     getParsedCookie('following') || [],
   );
 
-  // [5,7]
-  // [{id: 5, clapCount:13}, {id: 7, clapCount:0} ]
-
-  // const initialClapCount = following.find((cookieObj)=>cookieObj.id === props.user.id).clapCount
-
   const userCookieObject = following.find(
     (cookieObj) => cookieObj.id === props.user.id,
   );
@@ -119,8 +96,6 @@ export default function SingleUser(props: Props) {
   function followClickHandler() {
     // 1. check the current state of the cookie
     const followingArray = getParsedCookie('following') || [];
-    // [5,7]
-    // [{id: 5, clapCount:13}, {id: 7, clapCount:0}]
 
     const newCookie = addOrRemoveFromFollowingArray(
       followingArray,
@@ -132,24 +107,21 @@ export default function SingleUser(props: Props) {
     setFollowing(newCookie);
   }
 
-  function clapClickHandler() {
+  function favouritesHandler() {
     // add 1 to the clap property
     // 1. get old version of the array
-    const currentCookie = getParsedCookie('following') || [];
+    const currentCookie = getParsedCookie('rhubarb') || [];
     // 2. get the object in the array
-    const updatedUser = findUserAndIncrementClapCount(
-      currentCookie,
-      props.user.id,
-    );
+    const updatedUser = findUserAndSetFavourites(currentCookie, props.user.id);
     // 3. set the new version of the array
-    setParsedCookie('following', currentCookie);
+    setParsedCookie('rhubarb', currentCookie);
     setClapCount(updatedUser.clapCount);
   }
 
   return (
     <Layout>
       <Head>
-        <title>single user</title>
+        <title>My Profile</title>
       </Head>
 
       <div>Personal user page of {props.user.name || props.user.username}</div>
@@ -180,11 +152,12 @@ export default function SingleUser(props: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { getUser, getCoursesByUserId } = await import('../../util/database');
+  const { getUser, getCoursesByUserId } = await import(
+    '../../../util/database'
+  );
 
   const user = await getUser(Number(context.query.userId));
   const courses = await getCoursesByUserId(Number(context.query.userId));
-  //  { id: '6', name: 'Andrea', favoriteColor: 'purple' },
 
   return {
     props: {

@@ -67,7 +67,7 @@ export default function SignUpPage(props: Props) {
               ? router.query.returnTo
               : `/profile`;
           router.push(destination);
-          // props.refreshUsername();
+          props.refreshUsername();
         }}
       >
         <label>

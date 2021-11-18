@@ -4,7 +4,7 @@ import Link from 'next/link';
 import headerPic from '../public/images/headerPic.png';
 
 const navStyles = css`
-  display: flex;
+  display: flex, grid;
   gap: 10px;
   background-color: #499be7;
   fill-opacity: 69%inherit;

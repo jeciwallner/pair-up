@@ -89,9 +89,9 @@ export default function LoginPage() {
   );
 }
 
-// this is going to be my API route, the page is going to communicate with!
-// in the API Route I am getting the username and password
-// then the password needs to be converted to a hashed password
+// This is going to be my API route, the page is going to communicate with.
+// In the API Route I am getting the username and password,
+// then the password needs to be converted to a hashed password.
 
 /*  res.send is similar to return - I am sending a response back to the browser */
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -112,16 +112,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  const sessionToken = context.req.cookies.sessionToken;
+  const sessionToken = context.req.cookies.sessionTokenSignUp;
 
   const session = await getValidSessionByToken(sessionToken);
 
-  console.log(session);
+  console.log('I am not sure when exactly I appear.', session);
 
   if (session) {
     return {
       redirect: {
-        destination: '/',
+        destination: '/profile',
         permanent: false,
       },
     };

@@ -41,7 +41,7 @@ exports.down = async function down(sql) {
 DELETE FROM
  styles
 WHERE
- name = ${style.name};
+id = ${style.id} AND name = ${style.name};
 	`;
   }
 };

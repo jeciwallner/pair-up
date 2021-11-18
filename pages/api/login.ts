@@ -50,7 +50,7 @@ export default async function loginHandler(
 
     const token = crypto.randomBytes(64).toString('base64');
     // token will be created on login!
-    console.log(token);
+    console.log('I am a token.', token);
 
     const newSession = await createSession(token, userWithPasswordHash.id);
     console.log('newSession', newSession);
@@ -58,7 +58,7 @@ export default async function loginHandler(
     const cookie = createSerializedSignUpSessionsTokenCookie(
       newSession.sessionToken,
     );
-    console.log('Is this working?', cookie);
+    console.log('Here is a happy code.', cookie);
 
     const { passwordHash, ...user } = userWithPasswordHash;
 

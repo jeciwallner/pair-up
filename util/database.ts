@@ -1,4 +1,4 @@
-// here I need a hashed password => no actual passwords even close to the db!
+// friendly reminder: here I need a hashed password => no actual passwords even close to the db!!!
 
 import camelcaseKeys from 'camelcase-keys';
 import dotenvSafe from 'dotenv-safe';
@@ -51,11 +51,20 @@ export async function getValidSessionByToken(token: string) {
     FROM
       sessions
     WHERE
-      token = ${token} AND
+      session_token  = ${token} AND
       expiry_timestamp > NOW()
   `;
 
   return session && camelcaseKeys(session);
+}
+
+export async function getSchools() {
+  const schools = await sql`
+SELECT * FROM schools;
+`;
+  return schools.map((school) => {
+    return camelcaseKeys(school);
+  });
 }
 
 export async function getStyles() {
@@ -66,6 +75,15 @@ SELECT * FROM styles;
     return camelcaseKeys(style);
   });
 }
+
+// export async function getRoles() {
+//   const roles = await sql`
+//   SELECT * FROM roles;
+//   `;
+//   return roles.map((role) => {
+//     return camelcaseKeys(role);
+//   });
+// }
 
 export async function getUsers() {
   const users = await sql<User[]>`
@@ -131,7 +149,7 @@ export async function getUserBySessionToken(sessionToken: string | undefined) {
       sessions,
       users
     WHERE
-      sessions.token = ${sessionToken} AND
+      sessions.session_token = ${sessionToken} AND
       sessions.user_id = users.id
   `;
   return user && camelcaseKeys(user);
@@ -221,25 +239,27 @@ export async function deleteUserById(id: number) {
 }
 
 // Join query to get information from multiple tables:
-// export async function getStylesByDancer(dancersId: number) {
-//   const favouriteStylesByDancer = await sql<favourite_styles[]>`
-//     SELECT
-//       styles.id,
-//       styles.name,
-//       dancers.name
-//     FROM
-//       styles,
-//       favourite_styles,
-//       dancers
-//     WHERE
-//       dancers.id = ${dancers.id} AND
-//       dancers.id = favourite_styles.dancers_id AND
-//       styles_id = favourite_styles.styles_id;
-//   `;
-//   return favouriteStylesByDancer.map((favourite_styles) =>
-//     camelcaseKeys(favourite_styles),
-//   );
-// }
+// WHAT ON EARTH IS THIS CODE DOING!??!??!?!
+// How can I make it work? (It's linked to the Profile and should show the chosen styles by user.)
+export async function getStylesByDancer(dancersId: number) {
+  const favouriteStylesByDancer = await sql`
+    SELECT
+      styles.id,
+      styles.name,
+      dancers.name
+    FROM
+      styles,
+      favourite_styles,
+      dancers
+    WHERE
+      dancers.id = dancers.id AND
+      dancers.id = favourite_styles.dancers_id AND
+      styles_id = favourite_styles.styles_id;
+  `;
+  return favouriteStylesByDancer.map((favourite_styles) =>
+    camelcaseKeys(favourite_styles),
+  );
+}
 
 export async function createSession(token: string, userId: number) {
   const [session] = await sql<[Session]>`

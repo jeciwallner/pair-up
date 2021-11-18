@@ -1,11 +1,12 @@
 import { css } from '@emotion/react';
 import Head from 'next/head';
+import Select from 'react-select';
 import Layout from '../components/Layout';
 
 const formStyles = css`
   label {
-    display: block;
     color: #073162;
+    display: inline-grid;
   }
 `;
 
@@ -15,47 +16,81 @@ export default function Profile(props) {
       <Head>
         <title>Pair Up! - My Profile</title>
       </Head>
+      <p>Hello {props.user.username}!</p>
       <form css={formStyles}>
-        <label>
-          rhubarbrhubarbrhubarb
-          <input />
-        </label>
-        <label>
-          blablabla
-          <input />
-        </label>
-        <button>Commit</button>
+        <br />
+        <p>Chose your preferred dance styles.</p>
+        <Select options={props.stylesList} isMulti />
+        <br />
+        <p>Chose your preferred dance schools.</p>
+        <Select options={props.schoolsList} isMulti />
+        <br />
+        <button>Find a Dance Partner!</button>
       </form>
-      ;
-      <form css={formStyles}>
-        <label>
-          rhubarbrhubarbrhubarb
-          <input />
-        </label>
-        <label>
-          blablabla
-          <input />
-        </label>
-        <button>Commit</button>
-      </form>
-      ;
+      <br />
       <img src="/oldies.gif" alt="animated dancing couple" />
-      {JSON.stringify(props.stylesList)}
+      {/* {JSON.stringify(props.rolesList)} */}
+      {/* {JSON.stringify(props.stylesList)}
+      {JSON.stringify(props.schoolsList)} */}
     </Layout>
   );
 }
 
-// I need the user to make a choice whether they are a follower or leader and what their favourite schools and styles are.
+// if user is signed in, redirect to his profile page and display choices etc.
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const { getUserBySessionToken } = await import('../util/database');
+
+  // Authorization: Allow only logged-in users
+  const isValidUser = await getUserBySessionToken(
+    context.req.cookies.sessionTokenSignUp,
+  );
+
+  if (!isValidUser) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/login?returnTo=/profile',
+      },
+    };
+  }
+
+  // const { getRoles } = await import('../util/database');
+
   const { getStyles } = await import('../util/database');
+  const { getSchools } = await import('../util/database');
+
+  // const rolesList = await getRoles();
+
+  // const rolesNames = rolesList.map((roles) => ({
+  //   value: roles.rolesName,
+  //   label: roles.rolesName,
+  // }));
 
   const stylesList = await getStyles();
 
-  console.log(stylesList);
+  const names = stylesList.map((styles) => ({
+    value: styles.name,
+    label: styles.name,
+  }));
+
+  const schoolsList = await getSchools();
+
+  const schoolsNames = schoolsList.map((schools) => ({
+    value: schools.name,
+    label: schools.name,
+  }));
+
+  // This code is linked to the respective join query in the database.
+  // const { getStylesByDancer } = await import('../util/database');
+  // const stylesList = await getStylesByDancer();
+
   return {
     props: {
-      stylesList,
+      // rolesList: rolesNames,
+      stylesList: names,
+      schoolsList: schoolsNames,
+      user: isValidUser,
     },
   };
 }

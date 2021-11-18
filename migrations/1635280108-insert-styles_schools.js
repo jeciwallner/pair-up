@@ -57,9 +57,9 @@ exports.down = async function down(sql) {
   for (const schoolStyles of styles_schools) {
     await sql`
 	DELETE FROM
-  styles_schools
-	WHERE
-	 id = ${schoolStyles.schools_id} AND name = ${schoolStyles.styles_id};
-		`;
+styles_schools
+WHERE
+schools_id = ${schoolStyles.schools_id} AND styles_id = ${schoolStyles.styles_id};
+ `;
   }
 };

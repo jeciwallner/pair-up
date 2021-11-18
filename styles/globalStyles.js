@@ -61,4 +61,7 @@ export const myGlobalStyles = css`
   .errorStyles {
     color: #ff0077;
   }
+  .grid-container {
+    display: inline-grid;
+  }
 `;
