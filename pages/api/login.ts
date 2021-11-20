@@ -48,17 +48,14 @@ export default async function loginHandler(
 
     deleteExpiredSessions();
 
-    const token = crypto.randomBytes(64).toString('base64');
     // token will be created on login!
-    console.log('I am a token.', token);
+    const token = crypto.randomBytes(64).toString('base64');
 
     const newSession = await createSession(token, userWithPasswordHash.id);
-    console.log('newSession', newSession);
 
     const cookie = createSerializedSignUpSessionsTokenCookie(
       newSession.sessionToken,
     );
-    console.log('Here is a happy code.', cookie);
 
     const { passwordHash, ...user } = userWithPasswordHash;
 

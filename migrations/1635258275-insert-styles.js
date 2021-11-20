@@ -21,8 +21,6 @@ const styles = [
 ];
 
 exports.up = async function up(sql) {
-  console.log('inserting styles into table');
-
   // Looping over the array and INSERTing each style
   for (const style of styles) {
     await sql`
@@ -35,7 +33,6 @@ exports.up = async function up(sql) {
 };
 
 exports.down = async function down(sql) {
-  console.log('I have deleted the styles table.');
   for (const style of styles) {
     await sql`
 DELETE FROM
