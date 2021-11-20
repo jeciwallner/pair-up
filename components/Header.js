@@ -1,40 +1,49 @@
-import { css } from '@emotion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import headerPic from '../public/images/headerPic.png';
 
-const navStyles = css`
-  display: flex, grid;
-  gap: 10px;
-  background-color: #499be7;
-  fill-opacity: 69%inherit;
-  /* border-color: #499be7; */
-  border-width: 2px;
-  color: black;
-  padding: 8px 15px;
-  text-decoration: none;
-  font-weight: bold;
-`;
-
 export default function Header() {
   return (
     <header>
-      <nav css={navStyles}>
-        <Link href="/" alt="Landing Page">
-          <a>PairUp!</a>
-        </Link>
-        <Link href="/sign_up" alt="Link to Sign-Up Page">
-          <a>Sign Up</a>
-        </Link>
-        <Link href="/login" alt="Link to Login Page">
-          <a>Login</a>
-        </Link>
-        <Link href="/profile" alt="Link to Profile Page">
-          <a>My Profile</a>
-        </Link>
-        <Link href="/logout" alt="Link to Logout Page">
-          <a>Logout</a>
-        </Link>
+      <nav className="navbar navbar-expand-sm border border-primary">
+        <div class="container-fluid">
+          <Link href="/" alt="Landing Page">
+            <a className="navbar-brand d-flex align-items-center">
+              <img
+                class="me-2"
+                src="icon-apple-touch.png"
+                height="50"
+                width="50"
+                alt="PairUp Logo"
+              />
+              PairUp!
+            </a>
+          </Link>
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <Link href="/sign_up" alt="Link to Sign-Up Page">
+                  <a className="nav-link">Sign Up</a>
+                </Link>
+              </li>
+              <li class="nav-item">
+                <Link href="/login" alt="Link to Login Page">
+                  <a className="nav-link">Login</a>
+                </Link>
+              </li>
+              <li class="nav-item">
+                <Link href="/profile" alt="Link to Profile Page">
+                  <a className="nav-link">Welcome!</a>
+                </Link>
+              </li>
+              <li class="nav-item">
+                <Link href="/logout" alt="Link to Logout Page">
+                  <a className="nav-link">Logout</a>
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
       </nav>
       <Image src={headerPic} alt="dancing couple in nature" />
     </header>

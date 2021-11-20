@@ -1,14 +1,9 @@
-import { css } from '@emotion/react';
-
-const footerStyles = css`
-  grid-row-start: 2;
-  grid-row-end: 3;
-  display: flex;
-  gap: 10px;
-  background-color: #499be7;
-  color: black;
-`;
-
 export default function Footer() {
-  return <footer css={footerStyles}>PairUp! 2021</footer>;
+  return (
+    <footer class="text-white bg-primary fixed-bottom">
+      <div class="container-fluid d-flex">
+        <div class="ms-auto">&copy; PairUp! {new Date().getFullYear()}</div>
+      </div>
+    </footer>
+  );
 }
