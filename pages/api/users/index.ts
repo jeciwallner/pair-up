@@ -16,7 +16,7 @@ export async function getServerSideProps(context) {
       const body = req.body;
       const createdUser = await createUser({
         name: body.userName,
-        favoriteColor: body.userColor,
+        styles: body.userStyles,
       });
 
       return res.status(200).json(createdUser);
