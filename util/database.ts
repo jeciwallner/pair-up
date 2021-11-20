@@ -76,14 +76,14 @@ SELECT * FROM styles;
   });
 }
 
-// export async function getRoles() {
-//   const roles = await sql`
-//   SELECT * FROM roles;
-//   `;
-//   return roles.map((role) => {
-//     return camelcaseKeys(role);
-//   });
-// }
+export async function getRoles() {
+  const roles = await sql`
+  SELECT * FROM roles;
+  `;
+  return roles.map((role) => {
+    return camelcaseKeys(role);
+  });
+}
 
 export async function getUsers() {
   const users = await sql<User[]>`
@@ -240,7 +240,7 @@ export async function deleteUserById(id: number) {
 
 // Join query to get information from multiple tables:
 // WHAT ON EARTH IS THIS CODE DOING!??!??!?!
-// How can I make it work? (It's linked to the Profile and should show the chosen styles by user.)
+// How can I make it work? (It's linked to the Profile and should show the chosen styles by user, I guess.)
 export async function getStylesByDancer(dancersId: number) {
   const favouriteStylesByDancer = await sql`
     SELECT
