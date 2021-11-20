@@ -40,7 +40,7 @@ exports.down = async function down(sql) {
 	DELETE FROM
 	 schools
 	WHERE
-	 id = ${school.id} AND name = ${school.name};
+	 id = ${school.id};
 		`;
   }
 };

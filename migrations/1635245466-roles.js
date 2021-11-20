@@ -5,17 +5,18 @@ const roles = [
 
 exports.up = async function up(sql) {
   await sql`
+	CREATE TABLE roles (
+  id integer PRIMARY KEY,
+  name varchar(255) NOT NULL
+ );
+ `;
+  await sql`
 	INSERT INTO roles ${sql(roles, 'id', 'name')}
 	`;
 };
 
 exports.down = async function down(sql) {
-  for (const role of roles) {
-    await sql`
-	DELETE FROM
-		roles
-	WHERE
-		id = ${role.id} AND name = ${role.name};
+  await sql`
+	DROP TABLE roles;
 	`;
-  }
 };

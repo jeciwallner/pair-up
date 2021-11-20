@@ -4,7 +4,7 @@ exports.up = async function up(sql) {
   await sql`
 	CREATE TABLE styles (
 		id integer PRIMARY KEY NOT NULL,
-		name varchar(40) NOT NULL
+		name varchar(255) NOT NULL
 		);
 		`;
 };

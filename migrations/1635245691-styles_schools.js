@@ -1,10 +1,10 @@
 exports.up = async function up(sql) {
   await sql`
-CREATE TABLE styles_schools (
-  PRIMARY KEY (styles_id, schools_id),
-  styles_id integer references styles (id),
-  schools_id integer references schools (id)
-);
+  CREATE TABLE styles_schools (
+    PRIMARY KEY (style_id, school_id),
+    style_id integer references styles (id),
+    school_id integer references schools (id)
+  );
 `;
 };
 

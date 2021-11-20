@@ -4,8 +4,9 @@ exports.up = async function up(sql) {
 		PRIMARY KEY (requester_id, receiver_id),
 		requester_id integer references dancers (id),
 		receiver_id integer references dancers (id),
-		point_in_time timestamp,
-		status_id integer references statuses (id)
+		created_at timestamp NOT NULL DEFAULT NOW(),
+		accepted_at timestamp,
+		declined_at timestamp
 	);
 	`;
 };

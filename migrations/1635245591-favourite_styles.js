@@ -1,10 +1,10 @@
 exports.up = async function up(sql) {
   await sql`
-CREATE TABLE favourite_styles (
-  PRIMARY KEY (dancers_id, styles_id),
-  dancers_id integer references dancers (id),
-  styles_id integer references styles (id)
-);
+  CREATE TABLE favourite_styles (
+    PRIMARY KEY (dancer_id, style_id),
+    dancer_id integer references dancers (id),
+    style_id integer references styles (id)
+  );
 `;
 };
 
