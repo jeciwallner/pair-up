@@ -14,6 +14,7 @@
     "@emotion/react": "^11.5.0",
     "@types/dotenv-safe": "^8.1.2",
     "bcrypt": "^5.0.1",
+    "bootstrap": "^5.1.1",
     "camelcase-keys": "^7.0.1",
     "cookie": "^0.4.1",
     "csrf": "^3.1.0",
@@ -53,6 +54,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-testing-library": "^5.0.0",
     "eslint-plugin-unicorn": "^37.0.1",
+    "sass": "^1.43.4",
     "typescript": "^4.4.4"
   },
   "resolutions": {
