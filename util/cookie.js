@@ -17,7 +17,7 @@ export function createSerializedSignUpSessionsTokenCookie(token) {
   // check if we are in production on Heroku etc.
   const isProduction = process.env.NODE_ENV === 'production';
   // set to 10 minutes
-  const maxAge = 60 * 10;
+  const maxAge = 3600 * 24;
 
   return serialize('sessionTokenSignUp', token, {
     maxAge: maxAge,
