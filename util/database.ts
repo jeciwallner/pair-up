@@ -21,6 +21,21 @@ export type Session = {
   expiryTimestamp: Date;
 };
 
+export type Dancer = {
+  id: number;
+  roleId: number;
+};
+
+export type FavouriteStyles = {
+  dancerId: number;
+  styleId: number;
+};
+
+export type FavouriteSchools = {
+  dancerId: number;
+  schoolId: number;
+};
+
 dotenvSafe.config();
 
 declare module globalThis {
@@ -239,26 +254,66 @@ export async function deleteUserById(id: number) {
 }
 
 // Join query to get information from multiple tables:
-// WHAT ON EARTH IS THIS CODE DOING!??!??!?!
-// How can I make it work? (It's linked to the Profile and should show the chosen styles by user, I guess.)
-export async function getStylesByDancer(dancersId: number) {
-  const favouriteStylesByDancer = await sql`
-    SELECT
-      styles.id,
-      styles.name,
-      dancers.name
-    FROM
-      styles,
-      favourite_styles,
-      dancers
-    WHERE
-      dancers.id = dancers.id AND
-      dancers.id = favourite_styles.dancers_id AND
-      styles_id = favourite_styles.styles_id;
+// // WHAT ON EARTH IS THIS CODE DOING!??!??!?!
+// // How can I make it work? (It's linked to the Profile and should show the chosen styles by user, I guess.)
+// export async function getStylesByDancer(dancersId: number) {
+//   const favouriteStylesByDancer = await sql`
+//     SELECT
+//       styles.id,
+//       styles.name,
+//       dancers.name
+//     FROM
+//       styles,
+//       favourite_styles,
+//       dancers
+//     WHERE
+//       dancers.id = dancers.id AND
+//       dancers.id = favourite_styles.dancers_id AND
+//       styles_id = favourite_styles.styles_id;
+//   `;
+//   return favouriteStylesByDancer.map((favourite_styles) =>
+//     camelcaseKeys(favourite_styles),
+//   );
+// }
+
+export async function storeDancerRole(dancerId: number, roleId: number) {
+  const [dancer] = await sql<[Dancer]>`
+    INSERT INTO
+      dancers(role_id, id)
+    VALUES
+      (${roleId}, ${dancerId})
+    RETURNING
+      *
   `;
-  return favouriteStylesByDancer.map((favourite_styles) =>
-    camelcaseKeys(favourite_styles),
-  );
+  return camelcaseKeys(dancer);
+}
+
+// userId is the same as dancerId
+export async function storeFavouriteStyles(dancerId: number, styleId: number) {
+  const [favouriteStyles] = await sql<[FavouriteStyles]>`
+    INSERT INTO
+      favourite_styles(dancer_id, style_id)
+    VALUES
+      (${dancerId}, ${styleId})
+    RETURNING
+      *
+  `;
+  return camelcaseKeys(favouriteStyles);
+}
+
+export async function storeFavouriteSchools(
+  dancerId: number,
+  schoolId: number,
+) {
+  const [favouriteSchools] = await sql<[FavouriteSchools]>`
+    INSERT INTO
+      favourite_schools(dancer_id, school_id)
+    VALUES
+      (${dancerId}, ${schoolId})
+    RETURNING
+      *
+  `;
+  return camelcaseKeys(favouriteSchools);
 }
 
 export async function createSession(token: string, userId: number) {

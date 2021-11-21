@@ -1,8 +1,13 @@
 import Head from 'next/head';
+import { useState } from 'react';
 import Select from 'react-select';
 import Layout from '../components/Layout';
 
 export default function Profile(props) {
+  const [role, setRole] = useState(null);
+  const [styles, setStyles] = useState([]);
+  const [schools, setSchools] = useState([]);
+
   return (
     <Layout>
       <Head>
@@ -18,32 +23,62 @@ export default function Profile(props) {
           which Styles and Schools in Vienna you are particularly interested in,
           so we can help you better!
         </p>
-        <form>
+        <form
+          onSubmit={async (event) => {
+            event.preventDefault();
+            await fetch('api/profile', {
+              method: 'POST',
+              // letter head:
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                role,
+                styles,
+                schools,
+              }),
+            });
+          }}
+        >
           <div className="mb-3">
             <label className="form-label" htmlFor="role">
               Chose your preferred role.
             </label>
-            <Select id="role" options={props.rolesList} />
+            <Select
+              id="role"
+              options={props.rolesList}
+              value={role}
+              onChange={(event) => setRole(event)}
+            />
           </div>
           <div className="mb-3">
             <label className="form-label" htmlFor="styles">
               Chose your preferred dance styles.
             </label>
-            <Select id="styles" options={props.stylesList} isMulti />
+            <Select
+              id="styles"
+              options={props.stylesList}
+              isMulti
+              value={styles}
+              onChange={(event) => setStyles(event)}
+            />
           </div>
           <div className="mb-3">
             <label className="form-label" htmlFor="schools">
               Choose your preferred dance schools.
             </label>
-            <Select id="schools" options={props.schoolsList} isMulti />
+            <Select
+              id="schools"
+              options={props.schoolsList}
+              isMulti
+              value={schools}
+              onChange={(event) => setSchools(event)}
+            />
           </div>
-          <button className="btn btn-primary">Find a Dance Partner!</button>
+          <button className="btn btn-primary">Commit Preferences</button>
         </form>
         <br />
         <img src="/oldies.gif" alt="animated dancing couple" />
-        {/* {JSON.stringify(props.rolesList)} */}
-        {/* {JSON.stringify(props.stylesList)}
-      {JSON.stringify(props.schoolsList)} */}
       </div>
     </Layout>
   );
