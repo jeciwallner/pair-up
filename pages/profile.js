@@ -20,19 +20,19 @@ export default function Profile(props) {
         </p>
         <form>
           <div className="mb-3">
-            <label className="form-label" for="role">
-              What are you looking for?
+            <label className="form-label" htmlFor="role">
+              Chose your preferred role.
             </label>
             <Select id="role" options={props.rolesList} />
           </div>
           <div className="mb-3">
-            <label className="form-label" for="styles">
+            <label className="form-label" htmlFor="styles">
               Chose your preferred dance styles.
             </label>
             <Select id="styles" options={props.stylesList} isMulti />
           </div>
           <div className="mb-3">
-            <label className="form-label" for="schools">
+            <label className="form-label" htmlFor="schools">
               Choose your preferred dance schools.
             </label>
             <Select id="schools" options={props.schoolsList} isMulti />
@@ -92,10 +92,6 @@ export async function getServerSideProps(context) {
     value: schools.id,
     label: schools.name,
   }));
-
-  // This code is linked to the respective join query in the database.
-  // const { getStylesByDancer } = await import('../util/database');
-  // const stylesList = await getStylesByDancer();
 
   return {
     props: {

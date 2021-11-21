@@ -55,7 +55,7 @@ export default function LoginPage() {
           }}
         >
           <div className="mb-3">
-            <label className="form-label" for="username">
+            <label className="form-label" htmlFor="username">
               Username
             </label>
             <input
@@ -67,7 +67,7 @@ export default function LoginPage() {
           </div>
 
           <div className="mb-3">
-            <label className="form-label" for="password">
+            <label className="form-label" htmlFor="password">
               Password
             </label>
             <input

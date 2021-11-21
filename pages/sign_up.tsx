@@ -59,7 +59,7 @@ export default function SignUpPage(props: Props) {
           }}
         >
           <div className="mb-3">
-            <label className="form-label" for="username">
+            <label className="form-label" htmlFor="username">
               Username
             </label>
             <input
@@ -70,7 +70,7 @@ export default function SignUpPage(props: Props) {
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" for="email">
+            <label className="form-label" htmlFor="email">
               Email-Address
             </label>
             <input
@@ -82,7 +82,7 @@ export default function SignUpPage(props: Props) {
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" for="password">
+            <label className="form-label" htmlFor="password">
               Password
             </label>
             <input
