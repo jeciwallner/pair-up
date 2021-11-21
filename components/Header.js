@@ -1,12 +1,10 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import headerPic from '../public/images/headerPic.png';
 
 export default function Header() {
   return (
     <header>
       <nav className="navbar navbar-expand-sm border border-primary">
-        <div class="container-fluid">
+        <div class="container">
           <Link href="/" alt="Landing Page">
             <a className="navbar-brand d-flex align-items-center">
               <img
@@ -45,7 +43,11 @@ export default function Header() {
           </div>
         </div>
       </nav>
-      <Image src={headerPic} alt="dancing couple in nature" />
+      <img
+        className="w-100"
+        src="/images/headerPic.png"
+        alt="dancing couple in nature"
+      />
     </header>
   );
 }
