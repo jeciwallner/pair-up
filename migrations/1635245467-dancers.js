@@ -1,7 +1,7 @@
 exports.up = async function up(sql) {
   await sql`
 	CREATE TABLE dancers (
-		id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+		id integer PRIMARY KEY,
 		role_id integer references roles (id)
 	);
 	`;

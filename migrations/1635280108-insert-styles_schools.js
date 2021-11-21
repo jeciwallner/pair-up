@@ -59,7 +59,7 @@ exports.down = async function down(sql) {
 	DELETE FROM
 styles_schools
 WHERE
-school_id = ${schoolStyles.schools_id} AND style_id = ${schoolStyles.styles_id};
+school_id = ${schoolStyles.school_id} AND style_id = ${schoolStyles.style_id};
  `;
   }
 };
