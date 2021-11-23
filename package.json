@@ -60,5 +60,8 @@
   "resolutions": {
     "eslint-plugin-react": "7.26.1",
     "eslint-plugin-testing-library": "5.0.0"
-  }
+  },
+  "cacheDirectories": [
+    ".next/cache"
+  ]
 }
