@@ -1,5 +1,6 @@
 // this is UI code
 // fetch to the API Route
+
 import 'bootstrap/dist/css/bootstrap.css';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/dist/client/router';
@@ -123,14 +124,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  const sessionToken = context.req.cookies.sessionToken;
+  const sessionToken = context.req.cookies.sessionTokenSignUp;
 
   const session = await getValidSessionByToken(sessionToken);
 
   if (session) {
     return {
       redirect: {
-        destination: '/',
+        destination: '/profile',
         permanent: false,
       },
     };
