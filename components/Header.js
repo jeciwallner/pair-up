@@ -31,7 +31,12 @@ export default function Header() {
               </li>
               <li class="nav-item">
                 <Link href="/profile" alt="Link to Profile Page">
-                  <a className="nav-link">Welcome!</a>
+                  <a className="nav-link">My Profile</a>
+                </Link>
+              </li>
+              <li class="nav-item">
+                <Link href="/search" alt="Link to Search Page">
+                  <a className="nav-link">Search</a>
                 </Link>
               </li>
               <li class="nav-item">
