@@ -27,6 +27,7 @@ export default async function preferencesHandler(
   if (!user) {
     return;
   }
+
   await storeDancerRole(user.id, formPreferences.role.value);
 
   formPreferences.styles.forEach((style: SelectOption) => {
@@ -37,3 +38,5 @@ export default async function preferencesHandler(
   });
   res.status(201);
 }
+
+// once the choices are made, the user should be redirected to his profile page

@@ -18,10 +18,8 @@ export async function getServerSideProps() {
   //         name: body.userName,
   //         styles: body.userStyles,
   //       });
-
   //       return res.status(200).json(createdUser);
   //     }
-
   //     return res.status(405);
   //   }
 }

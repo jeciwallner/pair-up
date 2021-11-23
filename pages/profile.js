@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Select from 'react-select';
 import Layout from '../components/Layout';
@@ -7,6 +8,10 @@ export default function Profile(props) {
   const [role, setRole] = useState(null);
   const [styles, setStyles] = useState([]);
   const [schools, setSchools] = useState([]);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+
+  const router = useRouter();
 
   return (
     <Layout>
@@ -26,7 +31,7 @@ export default function Profile(props) {
         <form
           onSubmit={async (event) => {
             event.preventDefault();
-            await fetch('api/profile', {
+            const response = await fetch('api/profile', {
               method: 'POST',
               // letter head:
               headers: {
@@ -38,6 +43,9 @@ export default function Profile(props) {
                 schools,
               }),
             });
+            setSuccess(response.status < 400);
+            setError(response.status >= 400);
+            router.push('/search');
           }}
         >
           <div className="mb-3">
@@ -76,6 +84,16 @@ export default function Profile(props) {
             />
           </div>
           <button className="btn btn-primary">Commit Preferences</button>
+          {success && (
+            <div class="alert alert-success" role="alert">
+              Your Preferences have been saved.
+            </div>
+          )}
+          {error && (
+            <div class="alert alert-danger" role="alert">
+              Well, that obviously didn't work.
+            </div>
+          )}
         </form>
         <br />
         <img src="/oldies.gif" alt="animated dancing couple" />

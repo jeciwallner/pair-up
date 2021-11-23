@@ -276,7 +276,76 @@ export async function deleteUserById(id: number) {
 //   );
 // }
 
+// export async function updateUserById(
+//   id: number,
+//   {
+//     username,
+//     email,
+//   }: {
+//     username: string;
+//     email: string;
+//   },
+// ) {
+//   const [user] = await sql<[User | undefined]>`
+//     UPDATE
+//       users
+//     SET
+//       username = ${username},
+//       email = ${email}
+//     WHERE
+//       id = ${id}
+//     RETURNING
+//       id,
+//       username,
+//       email;
+//   `;
+//   return user && camelcaseKeys(user);
+// }
+
+// export async function deleteUserById(id: number) {
+//   const [user] = await sql<[User | undefined]>`
+//     DELETE FROM
+//       users
+//     WHERE
+//       id = ${id}
+//     RETURNING
+//       id,
+//       username,
+//       email;
+//   `;
+//   return user && camelcaseKeys(user);
+// }
+
+// adapt above code so that user can update their preferences!
+
+export async function deleteFavouriteStyles(dancerId: number, styleId: number) {
+  await sql`
+    DELETE FROM
+      styles
+    WHERE
+      id = ${dancerId} && ${styleId}
+  `;
+}
+
+export async function deleteFavouriteSchools(
+  dancerId: number,
+  schoolId: number,
+) {
+  await sql`
+    DELETE FROM
+      schools
+    WHERE
+      id = ${dancerId} && ${schoolId}
+  `;
+}
+
 export async function storeDancerRole(dancerId: number, roleId: number) {
+  await sql`
+  DELETE FROM
+      dancers
+    WHERE
+      id = ${dancerId}
+  `;
   const [dancer] = await sql<[Dancer]>`
     INSERT INTO
       dancers(role_id, id)
@@ -350,4 +419,26 @@ export async function deleteSessionByToken(token: string) {
   `;
 
   return sessions.map((session) => camelcaseKeys(session))[0];
+}
+
+export async function getMatchingUser(id: number) {
+  const matches = await sql`
+    SELECT
+      *
+    FROM
+      dancers
+    WHERE role_id = ${id}
+  `;
+  return matches.map((match) => camelcaseKeys(match));
+}
+
+export async function getRoleById(id: number) {
+  const matches = await sql`
+    SELECT
+      *
+    FROM
+      dancers
+    WHERE role_id != ${id}
+  `;
+  return matches.map((match) => camelcaseKeys(match));
 }
