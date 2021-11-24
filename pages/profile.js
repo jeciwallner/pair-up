@@ -8,8 +8,8 @@ export default function Profile(props) {
   const [role, setRole] = useState(null);
   const [styles, setStyles] = useState([]);
   const [schools, setSchools] = useState([]);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
+  // const [valid, setValid] = useState(false);
+  // const [error, setError] = useState(false);
 
   const router = useRouter();
 
@@ -43,8 +43,8 @@ export default function Profile(props) {
                 schools,
               }),
             });
-            setSuccess(response.status < 400);
-            setError(response.status >= 400);
+            // setValid(response.status !== 500);
+            // setError(response.status === 500);
             router.push('/search');
           }}
         >
@@ -84,16 +84,16 @@ export default function Profile(props) {
             />
           </div>
           <button className="btn btn-primary">Commit Preferences</button>
-          {success && (
-            <div class="alert alert-success" role="alert">
+          {/* {valid && (
+            <div className="alert alert-info" role="alert">
               Your Preferences have been saved.
             </div>
           )}
           {error && (
-            <div class="alert alert-danger" role="alert">
+            <div className="alert alert-danger" role="alert">
               Well, that obviously didn't work.
             </div>
-          )}
+          )} */}
         </form>
         <br />
         <img src="/oldies.gif" alt="animated dancing couple" />
@@ -102,12 +102,9 @@ export default function Profile(props) {
   );
 }
 
-// if user is signed in, redirect to his profile page and display choices etc.
-
 export async function getServerSideProps(context) {
   const { getUserBySessionToken } = await import('../util/database');
 
-  // Authorization: Allow only logged-in users
   const isValidUser = await getUserBySessionToken(
     context.req.cookies.sessionTokenSignUp,
   );
