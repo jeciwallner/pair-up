@@ -33,12 +33,12 @@ exports.up = async function up(sql) {
 };
 
 exports.down = async function down(sql) {
-  for (const style of styles) {
-    await sql`
+  await sql`
+    DELETE FROM
+     favourite_styles
+      `;
+  await sql`
 DELETE FROM
  styles
-WHERE
-id = ${style.id};
 	`;
-  }
 };

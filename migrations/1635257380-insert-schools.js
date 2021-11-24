@@ -35,12 +35,12 @@ exports.up = async function up(sql) {
 };
 
 exports.down = async function down(sql) {
-  for (const school of schools) {
-    await sql`
-	DELETE FROM
-	 schools
-	WHERE
-	 id = ${school.id};
-		`;
-  }
+  await sql`
+    DELETE FROM
+     favourite_schools
+      `;
+  await sql`
+DELETE FROM
+ schools
+	`;
 };
