@@ -33,7 +33,6 @@ export default function Profile(props) {
 export async function getServerSideProps(context) {
   const { getUserBySessionToken } = await import('../util/database');
 
-  // Authorization: Allow only logged-in users
   const isValidUser = await getUserBySessionToken(
     context.req.cookies.sessionTokenSignUp,
   );
