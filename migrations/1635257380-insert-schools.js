@@ -38,9 +38,9 @@ exports.down = async function down(sql) {
   await sql`
     DELETE FROM
      favourite_schools
-      `;
+  `;
   await sql`
-DELETE FROM
- schools
+    DELETE FROM
+     schools
 	`;
 };
