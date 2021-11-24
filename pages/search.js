@@ -17,7 +17,7 @@ export default function Profile(props) {
           <h2 className="mb-3">Let's find you a Dance Partner!</h2>
           <button
             className="btn btn-primary"
-            onSubmit={async (event) => event.preventDefault()}
+            onSubmit={async (event) => await event.preventDefault()}
           >
             Match my Preferences.
           </button>
