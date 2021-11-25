@@ -15,6 +15,7 @@ type Props = { csrfToken: string };
 export default function SignUpPage(props: Props) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Errors>([]);
   const router = useRouter();
@@ -40,6 +41,7 @@ export default function SignUpPage(props: Props) {
               body: JSON.stringify({
                 username: username,
                 email: email,
+                phoneNumber,
                 password: password,
                 csrfToken: props.csrfToken,
               }),
@@ -80,6 +82,18 @@ export default function SignUpPage(props: Props) {
               type="email"
               value={email}
               onChange={(event) => setEmail(event.currentTarget.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="tel">
+              Phone Number
+            </label>
+            <input
+              id="tel"
+              className="form-control"
+              type="tel"
+              value={phoneNumber}
+              onChange={(event) => setPhoneNumber(event.currentTarget.value)}
             />
           </div>
           <div className="mb-3">

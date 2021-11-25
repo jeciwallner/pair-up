@@ -48,7 +48,7 @@ export default async function registerHandler(
   try {
     const username = req.body.username;
     const email = req.body.email;
-
+    const phoneNumber = req.body.phoneNumber;
     const existingUser = await getUserWithPasswordHash(username);
 
     if (existingUser) {
@@ -63,6 +63,7 @@ export default async function registerHandler(
     const user = await insertUser({
       username: username,
       email: email,
+      phoneNumber: phoneNumber,
       passwordHash: passwordHash,
     });
 
