@@ -1,9 +1,10 @@
 import Head from 'next/head';
+import { useState } from 'react';
 import Layout from '../components/Layout';
-import { getMatchingUser, getRoleById } from '../util/database';
+import { getMatchingUser, getMyRole } from '../util/database';
 
 export default function Profile(props) {
-  // const [matches, setMatches] = useState();
+  const [matches, setMatches] = useState();
 
   return (
     <Layout>
@@ -13,16 +14,36 @@ export default function Profile(props) {
       <div className="container">
         <h1>The search commences....</h1>
         <p>{props.user.username}, now it's time match you up.</p>
-        <form>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+          }}
+        >
           <h2 className="mb-3">Let's find you a Dance Partner!</h2>
-          <button
-            className="btn btn-primary"
-            onSubmit={async (event) => await event.preventDefault()}
-          >
-            Match my Preferences.
-          </button>
+          <button className="btn btn-primary">Match my Preferences.</button>
         </form>
-        <div>{JSON.stringify(props.partnerList)}</div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email Address</th>
+                <th>Phone Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              {props.partnerList.map((match) => {
+                return (
+                  <tr key={match.id}>
+                    <td>{match.username}</td>
+                    <td>{match.email}</td>
+                    <td>{match.phoneNumber}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
         <br />
         <img src="/oldies.gif" alt="animated old-fashioned dancing couple" />
       </div>
@@ -55,25 +76,22 @@ export async function getServerSideProps(context) {
     label: roles.name,
   }));
 
-  const getMyRole = await getRoleById(isValidUser.id);
+  // from here on, it doesn't seem to work:
 
-  const theOtherRole = getMyRole[0].roleId;
+  const myRole = await getMyRole(isValidUser.id);
+  console.log('my role', myRole);
 
-  const getMatches = await getMatchingUser(theOtherRole);
+  const getMatches = await getMatchingUser(myRole[0].roleId);
+
+  console.log(myRole);
 
   console.log('matches', getMatches);
-
-  console.log('the other role', getMyRole[0].roleId);
-
-  const partnerList = await getRoleById(getMatches[0].id);
-
-  console.log('partnerlist', partnerList);
 
   return {
     props: {
       rolesList: rolesNames,
       user: isValidUser,
-      partnerList: partnerList,
+      partnerList: getMatches,
     },
   };
 }

@@ -28,6 +28,11 @@ export type Dancer = {
   roleId: number;
 };
 
+export type Role = {
+  id: number;
+  name: string;
+};
+
 export type FavouriteStyles = {
   dancerId: number;
   styleId: number;
@@ -307,22 +312,6 @@ export async function deleteUserById(id: number) {
 //   return user && camelcaseKeys(user);
 // }
 
-// export async function deleteUserById(id: number) {
-//   const [user] = await sql<[User | undefined]>`
-//     DELETE FROM
-//       users
-//     WHERE
-//       id = ${id}
-//     RETURNING
-//       id,
-//       username,
-//       email;
-//   `;
-//   return user && camelcaseKeys(user);
-// }
-
-// adapt above code so that user can update their preferences!
-
 export async function deleteFavouriteStyles(dancerId: number, styleId: number) {
   await sql`
     DELETE FROM
@@ -426,24 +415,52 @@ export async function deleteSessionByToken(token: string) {
   return sessions.map((session) => camelcaseKeys(session))[0];
 }
 
-export async function getMatchingUser(id: number) {
+// export async function getRoles() {
+//   const roles = await sql`
+//   SELECT * FROM roles;
+//   `;
+//   return roles.map((role) => {
+//     return camelcaseKeys(role);
+//   });
+// }
+
+export async function getMyRole(id: number) {
   const matches = await sql`
     SELECT
       *
     FROM
       dancers
-    WHERE role_id = ${id}
+    WHERE id = ${id}
   `;
   return matches.map((match) => camelcaseKeys(match));
 }
 
-export async function getRoleById(id: number) {
+export async function getOtherRole(role_id: number) {
   const matches = await sql`
     SELECT
       *
     FROM
       dancers
-    WHERE role_id != ${id}
+    WHERE role_id != ${role_id}
+    `;
+  return matches.map((match) => camelcaseKeys(match));
+}
+
+export async function getMatchingUser(myRoleId: number) {
+  console.log(myRoleId);
+  const matches = await sql`
+    SELECT
+      users.id,
+      username,
+      email,
+      phone_number
+    FROM
+      dancers
+    LEFT JOIN
+      users
+    ON
+      dancers.id=users.id
+    WHERE role_id != ${myRoleId}
   `;
   return matches.map((match) => camelcaseKeys(match));
 }
