@@ -38,5 +38,3 @@ export default async function preferencesHandler(
   });
   res.status(201);
 }
-
-// once the choices are made, the user should be redirected to his profile page
