@@ -21,29 +21,25 @@ export default function Home() {
           <div class="col-sm-6 my-3 my-sm-0">
             <h1 class="h3">Welcome to PairUp!</h1>
             <p>
-              We are delighted to see you here! Let's pull up our sleeves and
-              get you paired up!
+              In Vienna, numerous dance schools offer a vast variety of classes,
+              and every year, a multitude of balls, happenings and regular
+              gatherings are being put on. Whosoever desires, can cavort and
+              thoroughly let their hair down.
             </p>
             <p>
-              Here are some shockingly bad dance-related puns for you to enjoy:
+              If said cavorter happens, however, to not find themselves in a
+              relationship, or with a partner not willing to join in their
+              frolicking, one is often reduced to the sad alternative of, well,
+              just staying home. Sad, isn't it?
             </p>
             <p>
-              If you happen to see cars dancing at the disco, it is probably a
-              brake dance.
+              Pair Up! aims to connect all these sad people who have a passion
+              for dancing, but nobody they can boogie with. Now there's good
+              news!
             </p>
             <p>
-              The skeletons didn’t get the opportunity to dance at the party
-              because they had no body to dance with.
-            </p>
-            <p>
-              It is not always that you wait for the storm in your life to pass
-              but learning how to dance in the rain. The best place for a dance
-              in California is San Fran-disco.
-            </p>
-            <p>When going out for a dance, snails wear escargogo boots.</p>
-            <p>
-              If you have been wondering why ants dance when climbing jam jars
-              is because most jars say twist to open.
+              We are here to help! Let's pull up our sleeves and get you paired
+              up!
             </p>
           </div>
           <div class="col-sm-3">
