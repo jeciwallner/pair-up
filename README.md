@@ -49,7 +49,7 @@ To make use of this project, please follow these steps:
 
 A good way to deploy your Next.js app is to use Heroku.
 
-- Sign up to Heroku: [Sign Up to Heroku](signup.heroku.com)
+- Sign up to Heroku: [Sign Up to Heroku](https://signup.heroku.com/)
 - Create a new App
 - Choose a name and select the "Europe" Region
 - Click on the button in the middle called "Connect to GitHub"
