@@ -13,13 +13,13 @@ export default function Profile(props) {
           {props.user.username}, let's see, what fine matches we found for you!
         </h1>
         <p>Feel free to contact each match at your leisure.</p>
-        <div class="table-responsive">
+        <div class="table-responsive col-lg-9">
           <table class="table">
             <thead>
               <tr>
-                <th>Username</th>
-                <th>Email your Matches!</th>
-                <th>Call your Matches!</th>
+                <th class="col-3">Username</th>
+                <th class="col-5">Email your Matches!</th>
+                <th class="col-4">Call your Matches!</th>
               </tr>
             </thead>
             <tbody>
