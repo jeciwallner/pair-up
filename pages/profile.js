@@ -53,7 +53,7 @@ export default function Profile(props) {
               Chose your preferred role.
             </label>
             <Select
-              id="role"
+              instanceId="role"
               options={props.rolesList}
               value={role}
               onChange={(event) => setRole(event)}
@@ -64,7 +64,7 @@ export default function Profile(props) {
               Chose your preferred dance styles.
             </label>
             <Select
-              id="styles"
+              instanceId="styles"
               options={props.stylesList}
               isMulti
               value={styles}
@@ -76,7 +76,7 @@ export default function Profile(props) {
               Choose your preferred dance schools.
             </label>
             <Select
-              id="schools"
+              instanceId="schools"
               options={props.schoolsList}
               isMulti
               value={schools}
