@@ -43,7 +43,7 @@ export default function Header(props) {
               )}
               {user && (
                 <li className="nav-item">
-                  <Link href="/search" alt="Link to Matches Page">
+                  <Link href="/matches" alt="Link to Matches Page">
                     <a className="nav-link">My Matches</a>
                   </Link>
                 </li>

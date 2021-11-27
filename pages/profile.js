@@ -43,9 +43,9 @@ export default function Profile(props) {
                 schools,
               }),
             });
-            // setValid(response.status !== 500);
-            // setError(response.status === 500);
-            router.push('/search');
+            setValid(response.status !== 500);
+            setError(response.status === 500);
+            router.push('/matches');
           }}
         >
           <div className="mb-3">

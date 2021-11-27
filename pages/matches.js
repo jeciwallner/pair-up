@@ -9,7 +9,7 @@ export default function Profile(props) {
   return (
     <Layout user={props.user}>
       <Head>
-        <title>Pair Up! - My Search</title>
+        <title>Pair Up! - My Matches</title>
       </Head>
       <div className="container">
         <h1>
