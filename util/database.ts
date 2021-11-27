@@ -312,24 +312,21 @@ export async function deleteUserById(id: number) {
 //   return user && camelcaseKeys(user);
 // }
 
-export async function deleteFavouriteStyles(dancerId: number, styleId: number) {
+export async function deleteFavouriteStyles(dancerId: number) {
   await sql`
     DELETE FROM
-      styles
+      favourite_styles
     WHERE
-      id = ${dancerId} && ${styleId}
+      dancer_id = ${dancerId}
   `;
 }
 
-export async function deleteFavouriteSchools(
-  dancerId: number,
-  schoolId: number,
-) {
+export async function deleteFavouriteSchools(dancerId: number) {
   await sql`
     DELETE FROM
-      schools
+      favourite_schools
     WHERE
-      id = ${dancerId} && ${schoolId}
+      dancer_id = ${dancerId}
   `;
 }
 

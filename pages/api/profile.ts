@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
+  deleteFavouriteSchools,
+  deleteFavouriteStyles,
   storeDancerRole,
   storeFavouriteSchools,
   storeFavouriteStyles,
@@ -28,13 +30,16 @@ export default async function preferencesHandler(
     return;
   }
 
+  await deleteFavouriteStyles(user.id);
+  await deleteFavouriteSchools(user.id);
   await storeDancerRole(user.id, formPreferences.role.value);
 
-  formPreferences.styles.forEach((style: SelectOption) => {
-    storeFavouriteStyles(user.id, style.value);
+  formPreferences.styles.forEach(async (style: SelectOption) => {
+    await storeFavouriteStyles(user.id, style.value);
   });
-  formPreferences.schools.forEach((school: SelectOption) => {
-    storeFavouriteSchools(user.id, school.value);
+  formPreferences.schools.forEach(async (school: SelectOption) => {
+    await storeFavouriteSchools(user.id, school.value);
   });
-  res.status(201);
+
+  res.status(201).send({});
 }
