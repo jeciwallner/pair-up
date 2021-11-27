@@ -1,11 +1,8 @@
 import Head from 'next/head';
-import { useState } from 'react';
 import Layout from '../components/Layout';
 import { getMatchingUser, getMyRole } from '../util/database';
 
 export default function Profile(props) {
-  const [matches, setMatches] = useState();
-
   return (
     <Layout user={props.user}>
       <Head>
@@ -79,8 +76,6 @@ export async function getServerSideProps(context) {
     value: roles.id,
     label: roles.name,
   }));
-
-  // from here on, it doesn't seem to work:
 
   const myRole = await getMyRole(isValidUser.id);
   console.log('my role', myRole);

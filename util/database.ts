@@ -263,55 +263,6 @@ export async function deleteUserById(id: number) {
   return user && camelcaseKeys(user);
 }
 
-// Join query to get information from multiple tables:
-// // WHAT ON EARTH IS THIS CODE DOING!??!??!?!
-// // How can I make it work? (It's linked to the Profile and should show the chosen styles by user, I guess.)
-// export async function getStylesByDancer(dancersId: number) {
-//   const favouriteStylesByDancer = await sql`
-//     SELECT
-//       styles.id,
-//       styles.name,
-//       dancers.name
-//     FROM
-//       styles,
-//       favourite_styles,
-//       dancers
-//     WHERE
-//       dancers.id = dancers.id AND
-//       dancers.id = favourite_styles.dancers_id AND
-//       styles_id = favourite_styles.styles_id;
-//   `;
-//   return favouriteStylesByDancer.map((favourite_styles) =>
-//     camelcaseKeys(favourite_styles),
-//   );
-// }
-
-// export async function updateUserById(
-//   id: number,
-//   {
-//     username,
-//     email,
-//   }: {
-//     username: string;
-//     email: string;
-//   },
-// ) {
-//   const [user] = await sql<[User | undefined]>`
-//     UPDATE
-//       users
-//     SET
-//       username = ${username},
-//       email = ${email}
-//     WHERE
-//       id = ${id}
-//     RETURNING
-//       id,
-//       username,
-//       email;
-//   `;
-//   return user && camelcaseKeys(user);
-// }
-
 export async function deleteFavouriteStyles(dancerId: number) {
   await sql`
     DELETE FROM
