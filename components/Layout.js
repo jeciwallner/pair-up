@@ -4,7 +4,7 @@ import Header from './Header';
 export default function Layout(props) {
   return (
     <>
-      <Header />
+      <Header user={props.user} />
       <div className="pb-5">{props.children}</div>
       <Footer className="footer" />
     </>

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
-export default function Header() {
+export default function Header(props) {
+  const user = props.user;
   return (
     <header>
       <nav className="navbar navbar-expand-sm border border-primary">
@@ -19,31 +20,41 @@ export default function Header() {
           </Link>
           <div className="collapse navbar-collapse">
             <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <Link href="/sign_up" alt="Link to Sign-Up Page">
-                  <a className="nav-link">Sign Up</a>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/login" alt="Link to Login Page">
-                  <a className="nav-link">Login</a>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/profile" alt="Link to Profile Page">
-                  <a className="nav-link">My Profile</a>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/search" alt="Link to Search Page">
-                  <a className="nav-link">Search</a>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/logout" alt="Link to Logout Page">
-                  <a className="nav-link">Logout</a>
-                </Link>
-              </li>
+              {!user && (
+                <li className="nav-item">
+                  <Link href="/sign_up" alt="Link to Sign-Up Page">
+                    <a className="nav-link">Sign Up</a>
+                  </Link>
+                </li>
+              )}
+              {!user && (
+                <li className="nav-item">
+                  <Link href="/login" alt="Link to Login Page">
+                    <a className="nav-link">Login</a>
+                  </Link>
+                </li>
+              )}
+              {user && (
+                <li className="nav-item">
+                  <Link href="/profile" alt="Link to Profile Page">
+                    <a className="nav-link">My Profile</a>
+                  </Link>
+                </li>
+              )}
+              {user && (
+                <li className="nav-item">
+                  <Link href="/search" alt="Link to Search Page">
+                    <a className="nav-link">Search</a>
+                  </Link>
+                </li>
+              )}
+              {user && (
+                <li className="nav-item">
+                  <Link href="/logout" alt="Link to Logout Page">
+                    <a className="nav-link">Logout</a>
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>

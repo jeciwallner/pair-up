@@ -7,7 +7,7 @@ export default function Profile(props) {
   const [matches, setMatches] = useState();
 
   return (
-    <Layout>
+    <Layout user={props.user}>
       <Head>
         <title>Pair Up! - My Search</title>
       </Head>

@@ -3,9 +3,9 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
 
-export default function Home() {
+export default function Home(props) {
   return (
-    <Layout>
+    <Layout user={props.user}>
       <Head>
         <title>Pair Up! - Home</title>
       </Head>
@@ -53,4 +53,18 @@ export default function Home() {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { getUserBySessionToken } = await import('../util/database');
+
+  const isValidUser = await getUserBySessionToken(
+    context.req.cookies.sessionTokenSignUp,
+  );
+
+  return {
+    props: {
+      user: !!isValidUser,
+    },
+  };
 }

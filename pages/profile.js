@@ -14,7 +14,7 @@ export default function Profile(props) {
   const router = useRouter();
 
   return (
-    <Layout>
+    <Layout user={props.user}>
       <Head>
         <title>Pair Up! - My Profile</title>
       </Head>
