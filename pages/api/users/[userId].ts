@@ -24,7 +24,6 @@ export async function handler(req: any, res: any) {
     const user = await getUser(Number(req.query.userId));
     res.status(200).json(user);
   } else if (req.method === 'DELETE') {
-    console.log('query', req.query);
     const deletedUser = await deleteUserById(Number(req.query.userId));
 
     return res.status(200).json(deletedUser);

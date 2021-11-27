@@ -78,13 +78,8 @@ export async function getServerSideProps(context) {
   }));
 
   const myRole = await getMyRole(isValidUser.id);
-  console.log('my role', myRole);
 
   const getMatches = await getMatchingUser(myRole[0].roleId);
-
-  console.log(myRole);
-
-  console.log('matches', getMatches);
 
   return {
     props: {

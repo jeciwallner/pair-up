@@ -395,7 +395,6 @@ export async function getOtherRole(role_id: number) {
 }
 
 export async function getMatchingUser(myRoleId: number) {
-  console.log(myRoleId);
   const matches = await sql`
     SELECT
       users.id,
