@@ -9,17 +9,17 @@ export default function Home(props) {
       <Head>
         <title>Pair Up! - Home</title>
       </Head>
-      <div class="container my-5 ">
-        <div class="row">
-          <div class="col-sm-3">
+      <div className="container my-5 ">
+        <div className="row">
+          <div className="col-sm-3">
             <img
               src="/images/cleveland.jpeg"
               alt="dancing couple in downtown cleveland"
               class="w-100"
             />
           </div>
-          <div class="col-sm-6 my-3 my-sm-0">
-            <h1 class="h3">Welcome to PairUp!</h1>
+          <div className="col-sm-6 my-3 my-sm-0">
+            <h1 className="h3">Welcome to PairUp!</h1>
             <p>
               In Vienna, numerous dance schools offer a vast variety of classes,
               and every year, a multitude of balls, happenings and regular
@@ -42,9 +42,9 @@ export default function Home(props) {
               up!
             </p>
           </div>
-          <div class="col-sm-3">
+          <div className="col-sm-3">
             <img
-              class="w-100"
+              className="w-100"
               src="/images/classical.jpeg"
               alt="classical dancing couple"
             />
