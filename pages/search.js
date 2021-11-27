@@ -12,23 +12,17 @@ export default function Profile(props) {
         <title>Pair Up! - My Search</title>
       </Head>
       <div className="container">
-        <h1>The search commences....</h1>
-        <p>{props.user.username}, now it's time match you up.</p>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-          }}
-        >
-          <h2 className="mb-3">Let's find you a Dance Partner!</h2>
-          <button className="btn btn-primary">Match my Preferences.</button>
-        </form>
+        <h1>
+          {props.user.username}, let's see, what fine matches we found for you!
+        </h1>
+        <p>Feel free to contact each match at your leisure.</p>
         <div class="table-responsive">
           <table class="table">
             <thead>
               <tr>
                 <th>Username</th>
-                <th>Email Address</th>
-                <th>Phone Number</th>
+                <th>Email your Matches!</th>
+                <th>Call your Matches!</th>
               </tr>
             </thead>
             <tbody>
@@ -36,8 +30,18 @@ export default function Profile(props) {
                 return (
                   <tr key={match.id}>
                     <td>{match.username}</td>
-                    <td>{match.email}</td>
-                    <td>{match.phoneNumber}</td>
+                    <td>
+                      <a
+                        href={`mailto:${match.email}?subject=${props.user.username} from Pair Up wants to dance with you!`}
+                      >
+                        Send an Email to {match.username}.
+                      </a>
+                    </td>
+                    <td>
+                      <a href={`tel:${match.phoneNumber}`}>
+                        {match.phoneNumber}
+                      </a>
+                    </td>
                   </tr>
                 );
               })}
