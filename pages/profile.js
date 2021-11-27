@@ -8,8 +8,8 @@ export default function Profile(props) {
   const [role, setRole] = useState(null);
   const [styles, setStyles] = useState([]);
   const [schools, setSchools] = useState([]);
-  // const [valid, setValid] = useState(false);
-  // const [error, setError] = useState(false);
+  const [valid, setValid] = useState(false);
+  const [error, setError] = useState(false);
 
   const router = useRouter();
 
@@ -84,7 +84,7 @@ export default function Profile(props) {
             />
           </div>
           <button className="btn btn-primary">Commit Preferences</button>
-          {/* {valid && (
+          {valid && (
             <div className="alert alert-info" role="alert">
               Your Preferences have been saved.
             </div>
@@ -93,7 +93,7 @@ export default function Profile(props) {
             <div className="alert alert-danger" role="alert">
               Well, that obviously didn't work.
             </div>
-          )} */}
+          )}
         </form>
         <br />
         <img src="/oldies.gif" alt="animated dancing couple" />
@@ -101,6 +101,7 @@ export default function Profile(props) {
     </Layout>
   );
 }
+// redirect directly to Matches!
 
 export async function getServerSideProps(context) {
   const { getUserBySessionToken } = await import('../util/database');
