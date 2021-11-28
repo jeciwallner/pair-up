@@ -12,25 +12,6 @@ const reset = css`
 export const myGlobalStyles = css`
   ${reset}
 
-  button {
-    background-color: #499be7;
-    padding: 0.5em;
-    border-radius: 32px;
-    border-color: #073162;
-    color: #073162;
-    font-size: 1em;
-    width: 25em;
-    max-width: 80vw;
-    cursor: pointer;
-    align-self: center;
-    &:active {
-      transform: scale(1.05);
-    }
-    &:hover {
-      opacity: 0.6;
-    }
-  }
-
   footer {
     display: flex;
     padding: 0.5rem;
