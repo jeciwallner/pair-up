@@ -1,10 +1,13 @@
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Header(props) {
+  const [menuClass, setMenuClass] = useState('collapse');
+
   const user = props.user;
   return (
     <header>
-      <nav className="navbar navbar-expand-sm border border-primary">
+      <nav className="navbar navbar-expand-md border border-primary">
         <div className="container">
           <Link href="/" alt="Landing Page">
             <a className="navbar-brand d-flex align-items-center">
@@ -18,8 +21,18 @@ export default function Header(props) {
               PairUp!
             </a>
           </Link>
-          <div className="collapse navbar-collapse">
-            <ul className="navbar-nav ms-auto">
+          <button
+            className="navbar-toggler ms-auto"
+            type="button"
+            aria-controls="navbarToggler"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            onClick={() => setMenuClass(menuClass === '' ? 'collapse' : '')}
+          >
+            ☰
+          </button>
+          <div className={`${menuClass} navbar-collapse`} id="navbarToggler">
+            <ul className="navbar-nav ms-auto text-end">
               {!user && (
                 <li className="nav-item">
                   <Link href="/sign_up" alt="Link to Sign-Up Page">
